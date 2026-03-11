@@ -59,11 +59,13 @@ void loop() {
     digitalWrite(ledVd, 0);
     
     lcd.clear();
-
-    lcd.setCursor(0, 0);
-    lcd.print(" EMERGENCY STOP ");
-    lcd.setCursor(0, 1);
-    lcd.print(" SYSTEM LOCKED  ");
+	
+    while(emergencyState == 1){
+      lcd.setCursor(0, 0);
+      lcd.print(" EMERGENCY STOP ");
+      lcd.setCursor(0, 1);
+      lcd.print(" SYSTEM LOCKED  ");
+    }
   } 
   
   else {
@@ -105,7 +107,7 @@ void loop() {
         lcd.setCursor(0, 0);
         lcd.print(" DOOR OPENING   ");
 
-        while(millis() - timerMillis < 2000){}
+       
 
         if (millis() - timerMillis >= 2000) {
           analogWrite(transistorMotor, 0); 
@@ -130,7 +132,7 @@ void loop() {
         lcd.setCursor(0, 0);
         lcd.print(" DOOR CLOSING   ");
 
-        while(millis() - timerMillis < 2000){}
+        
 
         if (millis() - timerMillis >= 2000) {
           analogWrite(transistorMotor, 0);
