@@ -1,3 +1,10 @@
+/*
+  Autor: Kauã Cordeiro
+  Descrição: Projeto de um sistema de porta inteligente utilizando um sensor ultrassônico, um display LCD, LEDs indicadores e um motor controlado por um transistor. O sistema possui também um botão de emergência para interromper o funcionamento em caso de necessidade.
+  Versão: 1.1
+  Data: 11/03/2026
+*/
+
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -12,7 +19,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 bool emergencyState = 0;
 
-int doorState = 0;
+int doorState = 0; // 0: Porta Fechada, 1: Porta Abrindo, 2: Porta Aberta, 3: Porta Fechando
 unsigned long timerMillis = 0; 
 
 void setup() {
@@ -36,18 +43,18 @@ void setup() {
 }
 
 void loop() {
-  if (!digitalRead(emergencyButton)) {
+  if (!digitalRead(emergencyButton)) { // Verifica se o botão de emergência foi pressionado
     emergencyState = !emergencyState;
     while(digitalRead(emergencyButton) == 0);
     delay(50);
-    
-    if (emergencyState == 1) {
-      analogWrite(transistorMotor, 0);
+     
+    if (emergencyState == 1) {         // Ativa o modo de emergência
+      analogWrite(transistorMotor, 0); // Para o motor imediatamente
       doorState = 0; 
     }
   }
 
-  if (emergencyState == 1) {
+  if (emergencyState == 1) { // Modo de emergência ativado
     digitalWrite(ledVm, 1);
     digitalWrite(ledVd, 0);
     
@@ -60,7 +67,7 @@ void loop() {
   } 
   
   else {
-    long duration, distance;
+    long duration, distance; // Variáveis para armazenar a duração do pulso e a distância calculada
     
     digitalWrite(trigPin, 0);
     delayMicroseconds(2);
@@ -69,7 +76,7 @@ void loop() {
     digitalWrite(trigPin, 0);
     
     duration = pulseIn(echoPin, 1);
-    distance = (duration / 2) / 29.1;
+    distance = (duration / 2) / 29.1; // Converte a duração do pulso em distância (cm)
     
     lcd.setCursor(0, 1);
     lcd.print("Distance: ");
