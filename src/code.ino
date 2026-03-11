@@ -1,7 +1,7 @@
 /*
   Autor: Kauã Cordeiro
   Descrição: Projeto de um sistema de porta inteligente utilizando um sensor ultrassônico, um display LCD, LEDs indicadores e um motor controlado por um transistor. O sistema possui também um botão de emergência para interromper o funcionamento em caso de necessidade.
-  Versão: 1.1
+  Versão: 1.2
   Data: 11/03/2026
 */
 
